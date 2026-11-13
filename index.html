@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>네이버 예약 스타일 | 학부모 상담 일정 신청</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+      background-color: #f5f6f8;
+      color: #1e1e23;
+      line-height: 1.5;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 500px;
+      background-color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
+    }
+
+    /* 네이버 상단 네비게이션 GNB */
+    .naver-gnb {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid #eaedf0;
+      background-color: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .gnb-brand {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 17px;
+      font-weight: 800;
+      color: #1e1e23;
+    }
+
+    .naver-n-box {
+      width: 22px;
+      height: 22px;
+      background-color: #03c75a;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+    }
+
+    .gnb-tag {
+      font-size: 12px;
+      color: #03c75a;
+      background-color: #f2fbf5;
+      border: 1px solid #bbf0d0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* 상단 배너 */
+    .booking-header {
+      padding: 22px 18px 18px;
+      background-color: #ffffff;
+      border-bottom: 8px solid #f4f6f8;
+    }
+
+    .booking-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e1e23;
+      margin-bottom: 6px;
+    }
+
+    .booking-desc {
+      font-size: 13px;
+      color: #666666;
+      line-height: 1.5;
+    }
+
+    .notice-box {
+      margin-top: 14px;
+      background-color: #f4f6f8;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #555555;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notice-icon {
+      color: #03c75a;
+      font-weight: bold;
+    }
+
+    /* 본문 영역 */
+    .main-body {
+      padding: 18px;
+      flex: 1;
+    }
+
+    /* 검색창 */
+    .search-wrapper {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      padding: 0 14px 0 38px;
+      font-size: 14px;
+      color: #1e1e23;
+      outline: none;
+      background-color: #ffffff;
+    }
+
+    .search-input:focus {
+      border-color: #03c75a;
+      box-shadow: 0 0 0 1px #03c75a;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888888;
+      font-size: 14px;
+    }
+
+    /* 필터 탭 */
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+      scrollbar-width: none;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      border: 1px solid #dadce0;
+      background-color: #ffffff;
+      color: #333333;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .filter-btn.active {
+      border-color: #03c75a;
+      background-color: #f2fbf5;
+      color: #02b350;
+      font-weight: 700;
+    }
+
+    /* 섹션 제목 */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e1e23;
+    }
+
+    .section-count {
+      font-size: 12px;
+      color: #888888;
+    }
+
+    /* 시간 슬롯 카드 */
+    .slot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .slot-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border: 1px solid #eaedf0;
+      border-radius: 8px;
+      background-color: #ffffff;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .slot-item:hover:not(.closed) {
+      border-color: #03c75a;
+      background-color: #fafdfb;
+    }
+
+    .slot-item.selected {
+      border-color: #03c75a;
+      background-color: #f2fbf5;
+      box-shadow: inset 0 0 0 1px #03c75a;
+    }
+
+    .slot-item.closed {
+      background-color: #f8f9fa;
+      border-color: #eaedf0;
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .slot-details {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .slot-time {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e1e23;
+    }
+
+    .slot-item.closed .slot-time {
+      color: #888888;
+    }
+
+    .slot-sub {
+      font-size: 13px;
+      color: #666666;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .type-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background-color: #edf3fc;
+      color: #2b6cb0;
+    }
+
+    .type-badge.phone {
+      background-color: #fef3c7;
+      color: #b45309;
+    }
+
+    .slot-action-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-align: center;
+      min-width: 68px;
+    }
+
+    .badge-open {
+      color: #03c75a;
+      border: 1px solid #03c75a;
+      background-color: #ffffff;
+    }
+
+    .slot-item.selected .badge-open {
+      background-color: #03c75a;
+      color: #ffffff;
+    }
+
+    .badge-closed {
+      color: #888888;
+      background-color: #eaedf0;
+      border: 1px solid #eaedf0;
+    }
+
+    /* 신청 폼 */
+    .form-box {
+      border: 1px solid #eaedf0;
+      border-radius: 8px;
+      background-color: #ffffff;
+      padding: 18px 16px;
+      margin-bottom: 24px;
+    }
+
+    .form-header {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e1e23;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eaedf0;
+    }
+
+    .selected-summary-chip {
+      background-color: #f2fbf5;
+      border: 1px solid #bbf0d0;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #02b350;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    .form-row {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333333;
+      margin-bottom: 6px;
+    }
+
+    .required-star {
+      color: #ff4747;
+      font-weight: bold;
+    }
+
+    .input-field, .select-field, .textarea-field {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      padding: 0 12px;
+      font-size: 14px;
+      color: #1e1e23;
+      background-color: #ffffff;
+      outline: none;
+    }
+
+    .textarea-field {
+      height: 72px;
+      padding: 10px 12px;
+      resize: none;
+      font-family: inherit;
+    }
+
+    .input-field:focus, .select-field:focus, .textarea-field:focus {
+      border-color: #03c75a;
+      box-shadow: 0 0 0 1px #03c75a;
+    }
+
+    /* 네이버 그린 메인 버튼 */
+    .submit-button {
+      width: 100%;
+      height: 50px;
+      background-color: #03c75a;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.15s;
+    }
+
+    .submit-button:hover:not(:disabled) {
+      background-color: #02b350;
+    }
+
+    .submit-button:disabled {
+      background-color: #c9cccf;
+      cursor: not-allowed;
+    }
+
+    /* 푸터 */
+    .footer {
+      background-color: #f4f6f8;
+      padding: 20px 18px;
+      font-size: 11px;
+      color: #888888;
+      line-height: 1.6;
+      border-top: 1px solid #eaedf0;
+      text-align: center;
+    }
+
+    /* 팝업 모달 */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .naver-modal {
+      background-color: #ffffff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      padding: 24px 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .success-check-circle {
+      width: 52px;
+      height: 52px;
+      background-color: #f2fbf5;
+      border: 2px solid #03c75a;
+      color: #03c75a;
+      font-size: 26px;
+      font-weight: 900;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .modal-h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e1e23;
+      margin-bottom: 4px;
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: #666666;
+      margin-bottom: 16px;
+    }
+
+    .summary-card {
+      background-color: #f8f9fa;
+      border: 1px solid #eaedf0;
+      border-radius: 8px;
+      padding: 14px;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .summary-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .summary-label {
+      color: #666666;
+      font-weight: 500;
+    }
+
+    .summary-value {
+      color: #1e1e23;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .btn-copy {
+      width: 100%;
+      height: 44px;
+      background-color: #03c75a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .btn-close {
+      width: 100%;
+      height: 44px;
+      background-color: #ffffff;
+      color: #333333;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .toast-pill {
+      display: none;
+      font-size: 12px;
+      color: #02b350;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- 네이버 예약 스타일 GNB -->
+    <header class="naver-gnb">
+      <div class="gnb-brand">
+        <span class="naver-n-box">N</span>
+        <span>상담예약</span>
+      </div>
+      <span class="gnb-tag">2026 1학기</span>
+    </header>
+
+    <!-- 상담 안내 헤더 -->
+    <section class="booking-header">
+      <h1 class="booking-title">담임교사 상담 일정 신청</h1>
+      <p class="booking-desc">
+        원하시는 날짜와 시간을 선택하신 후, 신청 내용을 남겨주시면 예약이 접수됩니다.
+      </p>
+      
+      <div class="notice-box">
+        <span class="notice-icon">✔</span>
+        <span>실시간 입력 화면 예시이며, 서버 공동 저장은 다음 업데이트에 연동됩니다.</span>
+      </div>
+    </section>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main-body">
+      <!-- 검색창 -->
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="상담 유형, 날짜 검색 (예: 대면, 24일, 전화)"
+        />
+      </div>
+
+      <!-- 네이버 필터 탭 -->
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-filter="all">전체 일정 (5)</button>
+        <button class="filter-btn" data-filter="open">예약가능만</button>
+        <button class="filter-btn" data-filter="in-person">대면 상담</button>
+        <button class="filter-btn" data-filter="phone">전화 상담</button>
+      </div>
+
+      <!-- 일정 목록 -->
+      <div class="section-header">
+        <h2 class="section-title">상담 시간 선택</h2>
+        <span id="slotCount" class="section-count">총 5개</span>
+      </div>
+
+      <div id="slotList" class="slot-list">
+        <!-- 자바스크립트로 5개 가상 슬롯 렌더링 -->
+      </div>
+
+      <!-- 정보 입력 폼 -->
+      <section class="form-box">
+        <h3 class="form-header">예약자 정보 입력 (예시)</h3>
+
+        <div id="selectedSlotInfo" class="selected-summary-chip">
+          <span>📅</span>
+          <span>위 목록에서 상담받으실 시간을 먼저 선택해 주세요.</span>
+        </div>
+
+        <form id="reservationForm">
+          <div class="form-row">
+            <label class="form-label" for="studentName">
+              학생 가명 / 번호 <span class="required-star">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="studentName" 
+              class="input-field" 
+              placeholder="예: 학생A (1번)" 
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="parentRole">
+              신청인 구분 <span class="required-star">*</span>
+            </label>
+            <select id="parentRole" class="select-field">
+              <option value="어머니">학부모 (모)</option>
+              <option value="아버지">학부모 (부)</option>
+              <option value="기타 보호자">기타 보호자</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="consultTopic">상담 희망 내용</label>
+            <textarea 
+              id="consultTopic" 
+              class="textarea-field" 
+              placeholder="궁금하시거나 나누고 싶은 내용을 간략히 적어주세요. (예: 새 학기 교우관계 및 진로 상담)"
+            ></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="submit-button" disabled>
+            상담 시간을 선택해 주세요
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+      <p>본 페이지는 학교 상담 일정 조율을 위한 프로토타입 웹 도구입니다.</p>
+      <p style="margin-top: 4px; color: #a0a5ad;">© 2026 School Consultation Prototype</p>
+    </footer>
+  </div>
+
+  <!-- 예약 완료 모달 -->
+  <div id="completeModal" class="modal-backdrop">
+    <div class="naver-modal">
+      <div class="success-check-circle">✓</div>
+      <h3 class="modal-h3">상담 신청이 접수되었습니다</h3>
+      <p class="modal-sub">아래 신청 내역을 확인해 주세요.</p>
+
+      <div id="summaryContent" class="summary-card">
+        <!-- 동적 요약 데이터 삽입 -->
+      </div>
+
+      <div id="toastMsg" class="toast-pill">✔ 클립보드에 복사되었습니다!</div>
+      <button id="copySummaryBtn" class="btn-copy">📋 신청 내역 복사하기</button>
+      <button id="closeModalBtn" class="btn-close">확인</button>
+    </div>
+  </div>
+
+  <script>
+    // 5건의 가상 상담 예시 데이터
+    const dummySlots = [
+      {
+        id: 1,
+        date: "2026.03.24 (화)",
+        time: "14:30 ~ 15:00",
+        type: "대면 상담",
+        isClosed: false
+      },
+      {
+        id: 2,
+        date: "2026.03.24 (화)",
+        time: "15:10 ~ 15:40",
+        type: "전화 상담",
+        isClosed: false
+      },
+      {
+        id: 3,
+        date: "2026.03.25 (수)",
+        time: "14:30 ~ 15:00",
+        type: "대면 상담",
+        isClosed: true
+      },
+      {
+        id: 4,
+        date: "2026.03.25 (수)",
+        time: "15:10 ~ 15:40",
+        type: "전화 상담",
+        isClosed: false
+      },
+      {
+        id: 5,
+        date: "2026.03.26 (목)",
+        time: "16:00 ~ 16:30",
+        type: "대면 상담",
+        isClosed: false
+      }
+    ];
+
+    let selectedSlotId = null;
+    let currentFilter = "all";
+    let searchQuery = "";
+    let lastSummaryText = "";
+
+    // DOM 참조
+    const slotListEl = document.getElementById("slotList");
+    const slotCountEl = document.getElementById("slotCount");
+    const searchInput = document.getElementById("searchInput");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const selectedSlotInfo = document.getElementById("selectedSlotInfo");
+    const submitBtn = document.getElementById("submitBtn");
+    const reservationForm = document.getElementById("reservationForm");
+    const completeModal = document.getElementById("completeModal");
+    const summaryContent = document.getElementById("summaryContent");
+    const copySummaryBtn = document.getElementById("copySummaryBtn");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const toastMsg = document.getElementById("toastMsg");
+
+    // 슬롯 렌더링
+    function renderSlots() {
+      slotListEl.innerHTML = "";
+
+      const filtered = dummySlots.filter(slot => {
+        const matchesSearch = 
+          slot.date.includes(searchQuery) ||
+          slot.time.includes(searchQuery) ||
+          slot.type.includes(searchQuery);
+
+        if (!matchesSearch) return false;
+
+        if (currentFilter === "open") return !slot.isClosed;
+        if (currentFilter === "in-person") return slot.type.includes("대면");
+        if (currentFilter === "phone") return slot.type.includes("전화");
+        return true;
+      });
+
+      slotCountEl.textContent = "총 " + filtered.length + "개";
+
+      if (filtered.length === 0) {
+        slotListEl.innerHTML = '<div style="text-align: center; padding: 30px; color: #888888; font-size: 13px;">일치하는 상담 일정이 없습니다.</div>';
+        return;
+      }
+
+      filtered.forEach(slot => {
+        const card = document.createElement("div");
+        const isSelected = slot.id === selectedSlotId;
+        card.className = "slot-item " + (slot.isClosed ? "closed " : "") + (isSelected ? "selected" : "");
+
+        const isPhone = slot.type.includes("전화");
+
+        card.innerHTML = 
+          '<div class="slot-details">' +
+            '<div class="slot-time">' + slot.time + '</div>' +
+            '<div class="slot-sub">' +
+              '<span>' + slot.date + '</span>' +
+              '<span class="type-badge ' + (isPhone ? 'phone' : '') + '">' + slot.type + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div>' +
+            (slot.isClosed
+              ? '<span class="slot-action-badge badge-closed">마감</span>'
+              : '<span class="slot-action-badge badge-open">' + (isSelected ? '선택됨 ✔' : '예약가능') + '</span>') +
+          '</div>';
+
+        if (!slot.isClosed) {
+          card.addEventListener("click", () => handleSelectSlot(slot));
+        }
+
+        slotListEl.appendChild(card);
+      });
+    }
+
+    // 슬롯 선택
+    function handleSelectSlot(slot) {
+      selectedSlotId = slot.id;
+      renderSlots();
+
+      selectedSlotInfo.innerHTML = '<span>✔</span><span><strong>선택 일정:</strong> ' + slot.date + ' ' + slot.time + ' (' + slot.type + ')</span>';
+      submitBtn.disabled = false;
+      submitBtn.textContent = "상담 신청하기";
+    }
+
+    // 검색 및 필터 이벤트
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim();
+      renderSlots();
+    });
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.dataset.filter;
+        renderSlots();
+      });
+    });
+
+    // 폼 제출
+    reservationForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      if (!selectedSlotId) {
+        alert("상담 시간을 먼저 선택해 주세요.");
+        return;
+      }
+
+      const slot = dummySlots.find(s => s.id === selectedSlotId);
+      const studentName = document.getElementById("studentName").value.trim();
+      const parentRole = document.getElementById("parentRole").value;
+      const consultTopic = document.getElementById("consultTopic").value.trim() || "기본 상담 희망";
+
+      lastSummaryText = 
+"[네이버 예약 스타일 - 상담 신청 내역]\n" +
+"• 상담 일시: " + slot.date + " " + slot.time + "\n" +
+"• 상담 방식: " + slot.type + "\n" +
+"• 신청자: " + studentName + " (" + parentRole + ")\n" +
+"• 상담 메모: " + consultTopic;
+
+      summaryContent.innerHTML = 
+        '<div class="summary-row">' +
+          '<span class="summary-label">상담 일시</span>' +
+          '<span class="summary-value">' + slot.date + ' ' + slot.time + '</span>' +
+        '</div>' +
+        '<div class="summary-row">' +
+          '<span class="summary-label">상담 유형</span>' +
+          '<span class="summary-value">' + slot.type + '</span>' +
+        '</div>' +
+        '<div class="summary-row">' +
+          '<span class="summary-label">신청자</span>' +
+          '<span class="summary-value">' + studentName + ' (' + parentRole + ')</span>' +
+        '</div>' +
+        '<div class="summary-row">' +
+          '<span class="summary-label">상담 주제</span>' +
+          '<span class="summary-value">' + consultTopic + '</span>' +
+        '</div>';
+
+      // 가상 마감 처리
+      slot.isClosed = true;
+      selectedSlotId = null;
+
+      // 폼 리셋
+      reservationForm.reset();
+      selectedSlotInfo.innerHTML = '<span>📅</span><span>위 목록에서 상담받으실 시간을 먼저 선택해 주세요.</span>';
+      submitBtn.disabled = true;
+      submitBtn.textContent = "상담 시간을 선택해 주세요";
+      renderSlots();
+
+      // 모달 표시
+      completeModal.classList.add("open");
+    });
+
+    // 복사 버튼
+    copySummaryBtn.addEventListener("click", () => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lastSummaryText).then(triggerToast);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = lastSummaryText;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        triggerToast();
+      }
+    });
+
+    function triggerToast() {
+      toastMsg.style.display = "block";
+      setTimeout(() => {
+        toastMsg.style.display = "none";
+      }, 2000);
+    }
+
+    closeModalBtn.addEventListener("click", () => {
+      completeModal.classList.remove("open");
+    });
+
+    // 최초 실행
+    renderSlots();
+  </script>
+</body>
+</html>
